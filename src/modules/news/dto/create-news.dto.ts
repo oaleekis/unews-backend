@@ -27,7 +27,7 @@ export class CreateNewsDto {
   @MaxLength(512)
   content?: string;
 
-  @IsUUID()
+
   authorId?: string;
 
   @IsDateString()

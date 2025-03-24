@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Request, Query, BadRequestException } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto, FindAllParameters, NewsRouteParameters } from './dto/create-news.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -10,7 +10,13 @@ export class NewsController {
 
   @Post()
   async create(@Request() req, @Body() createNewsDto: CreateNewsDto): Promise<CreateNewsDto> {
-    return await this.newsService.create(createNewsDto);
+    const authorId = req.author?.sub;
+
+    if (!authorId) {
+      throw new BadRequestException("Author ID inválido");
+    }
+
+    return await this.newsService.create(createNewsDto, authorId);
   }
 
   @Get()

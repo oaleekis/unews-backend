@@ -12,11 +12,11 @@ export class NewsService {
     private readonly newsRepository: Repository<NewsEntity>,
   ) { }
 
-  async create(createNewsDto: CreateNewsDto): Promise<CreateNewsDto> {
+  async create(createNewsDto: CreateNewsDto, authorId): Promise<CreateNewsDto> {
     const newsToSave: NewsEntity = {
       title: createNewsDto.title,
       content: createNewsDto.content,
-      authorId: createNewsDto.authorId,
+      authorId: authorId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       deletedAt: null
