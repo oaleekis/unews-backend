@@ -93,17 +93,25 @@ Este projeto é um backend simples desenvolvido com **NestJS**, utilizando **JWT
 - **Rota**: `/news`
 - **Descrição**: Lista todas as notícias. Aceita parâmetros de filtro.
 
+---
+
 - **Método**: `GET`
 - **Rota**: `/news/me`
 - **Descrição**: Lista todas as notícias do autor da requisição.
+
+---
 
 - **Método**: `GET`
 - **Rota**: `/news/:id`
 - **Descrição**: Retorna os detalhes de uma notícia específica.
 
+---
+
 - **Método**: `PUT`
 - **Rota**: `/news/:id`
 - **Descrição**: Atualiza os dados de uma notícia.
+
+---
 
 - **Método**: `DELETE`
 - **Rota**: `/news/:id`
