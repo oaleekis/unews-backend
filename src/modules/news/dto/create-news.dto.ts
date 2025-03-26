@@ -3,6 +3,8 @@ import { IsString, IsUUID, IsOptional, IsDateString, MinLength, MaxLength } from
 export interface FindAllParameters {
   title?: string;
   authorId?: string;
+  page?: number;
+  limit?: number;
 }
 
 export class NewsRouteParameters {

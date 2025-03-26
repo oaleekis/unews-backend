@@ -40,25 +40,29 @@ export class NewsService {
     return newsDto;
   }
 
-  async findAll(params: FindAllParameters): Promise<CreateNewsDto[]> {
-    const searchParams: FindOptionsWhere<NewsEntity> = {}
-
-    if (params.title) {
-      searchParams.title = Like(`%${params.title}%`);
+  async findAll(params: FindAllParameters) {
+    const { title, authorId, page = 1, limit = 5 } = params;
+    const searchParams: FindOptionsWhere<NewsEntity> = { authorId };
+  
+    if (title) {
+      searchParams.title = Like(`%${title}%`);
     }
-
-    searchParams.authorId = params.authorId;
-
-    const newsFound = await this.newsRepository.find({
-      where: searchParams
+  
+    const [news, total] = await this.newsRepository.findAndCount({
+      where: { ...searchParams, deletedAt: null },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: "DESC" },
     });
-
-    return newsFound.map(newsEntity => {
-      const newsDto = this.mapEntityToDto(newsEntity);
-
-      return newsDto;
-    });
+  
+    return {
+      data: news.map(this.mapEntityToDto),
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   }
+  
 
   async update(id: string, createNewsDto: CreateNewsDto) {
     const newsFound = await this.newsRepository.findOne({ where: { id } });

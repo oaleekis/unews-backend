@@ -20,13 +20,13 @@ export class NewsController {
   }
 
   @Get()
-  async findAll(@Query() params: FindAllParameters): Promise<CreateNewsDto[]> {
+  async findAll(@Query() params: FindAllParameters): Promise<{ data: CreateNewsDto[]; total: number; page: number; totalPages: number; }> {
     return this.newsService.findAll({ ...params });
   }
 
   @UseGuards(AuthGuard)
   @Get('/me')
-  async findMyNews(@Request() req, @Query() params: FindAllParameters): Promise<CreateNewsDto[]> {
+  async findMyNews(@Request() req, @Query() params: FindAllParameters): Promise<{ data: CreateNewsDto[]; total: number; page: number; totalPages: number; }> {
     const authorId = req.author.sub;
     return this.newsService.findAll({ ...params, authorId: authorId });
   }
