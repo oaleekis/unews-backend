@@ -115,4 +115,4 @@ Este projeto é um backend simples desenvolvido com **NestJS**, utilizando **JWT
 
 - **Método**: `DELETE`
 - **Rota**: `/news/:id`
-- **Descrição**: Deleta uma notícia
+- **Descrição**: Deleta uma notícia.
