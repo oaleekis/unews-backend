@@ -62,20 +62,30 @@ export class NewsService {
 
   async update(id: string, createNewsDto: CreateNewsDto) {
     const newsFound = await this.newsRepository.findOne({ where: { id } });
-
+  
     if (!newsFound) {
       throw new HttpException('News not found', HttpStatus.BAD_REQUEST);
     }
-
-    await this.newsRepository.update(id, this.mapDtoToEntity(createNewsDto));
+  
+    const newsToUpdate = this.newsRepository.create({
+      ...newsFound,
+      ...createNewsDto,
+    });
+  
+    await this.newsRepository.save(newsToUpdate);
+  
+    return newsToUpdate;
   }
 
   async remove(id: string) {
-    const result = await this.newsRepository.delete(id);
-
-    if (!result.affected) {
+    const newsFound = await this.newsRepository.findOne({ where: { id } });
+  
+    if (!newsFound) {
       throw new HttpException('News not found', HttpStatus.BAD_REQUEST);
     }
+  
+    newsFound.deletedAt = new Date().toISOString();
+    await this.newsRepository.save(newsFound);
   }
 
   private mapEntityToDto(newsEntity: NewsEntity): CreateNewsDto {

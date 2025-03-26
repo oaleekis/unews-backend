@@ -40,7 +40,7 @@ export class NewsController {
   @UseGuards(AuthGuard)
   @Put('/:id')
   async update(@Param() params: NewsRouteParameters, @Body() createNewsDto: CreateNewsDto) {
-    await this.newsService.update(params.id, createNewsDto);
+    return this.newsService.update(params.id, createNewsDto);
   }
 
   @UseGuards(AuthGuard)
